@@ -17,7 +17,7 @@ a Reverse-Engineered Ron Klaren's Battlesquadron Amiga music replay.
 | `-r` | `--rate=Hz[k]`   | Set sampling rate                            |
 | `-m` | `--mute=CHANS`   | Mute selected channels (bit-field or string) |
 | `-o` | `--output=URI`   | Set output file name (-w or -c).             |
-| `-c` | `--stdout`       | Output raw PCM to stdout or file [s16 native |
+| `-c` | `--stdout`       | Output raw PCM to stdout or file (host s16)  |
 | `-n` | `--null`         | Output to the void                           |
 | `-w` | `--wav`          | Generated a .wav file                        |
 | `-s` | `--stats`        | Print various statistics on exit             |
