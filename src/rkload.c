@@ -8,7 +8,7 @@
  *
  * MIT License
  *
- * Copyright (c) 2018 Benjamin Gerard AKA Ben/OVR.
+ * Copyright (c) 2018 Benjamin Gerard AKA Ben^OVR.
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -119,20 +119,20 @@ static void print_stat(rkins_t *I)
   int k;
 
   rklog("\n"
-        "I#%02u %c%c%c%c %u bytes%s\n", I->num,
-        ".A"[!!st[0].count],
-        ".B"[!!st[1].count],
-        ".C"[!!st[2].count],
-        ".D"[!!st[3].count],
-        I->pcmEnd - I->pcmAdr,
-        !I->lpAdr ? " (1-shot)":"");
+	"I#%02u %c%c%c%c %u bytes%s\n", I->num,
+	".A"[!!st[0].count],
+	".B"[!!st[1].count],
+	".C"[!!st[2].count],
+	".D"[!!st[3].count],
+	I->pcmEnd - I->pcmAdr,
+	!I->lpAdr ? " (1-shot)":"");
 
   for (k=0; k < 4; ++k, ++st) {
     if (!st->count) continue;
     rklog("   - %c %5ux per{%4d - %4d} vol{%2d - %2d}\n",
-          'A'+k, st->count,
-          st->perMin,st->perMax,
-          st->volMin,st->volMax);
+	  'A'+k, st->count,
+	  st->perMin,st->perMax,
+	  st->volMin,st->volMax);
   }
 }
 

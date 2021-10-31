@@ -8,7 +8,7 @@
  *
  * MIT License
  *
- * Copyright (c) 2018 Benjamin Gerard AKA Ben/OVR.
+ * Copyright (c) 2018 Benjamin Gerard AKA Ben^OVR.
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -32,14 +32,14 @@
  */
 
 static const char copyright[] = \
-  "Copyright (c) 2018 Benjamin Gerard AKA Ben/OVR";
+  "Copyright (c) 2018 Benjamin Gerard AKA Ben^OVR";
 static const char license[] = \
   "Licensed under MIT license";
 static const char bugreport[] = \
   "Report bugs to <https://github.com/benjihan/rkplay/issues>";
 
 #define _DEFAULT_SOURCE
-#define _GNU_SOURCE                     /* for GNU basename() */
+#define _GNU_SOURCE			/* for GNU basename() */
 
 enum {
   SPR_DEF = 48000
@@ -76,7 +76,7 @@ enum {
 
 #ifdef WIN32
 #ifdef __MINGW32__
-# include <libgen.h>     /* no GNU version of basename() with mingw */
+# include <libgen.h>	 /* no GNU version of basename() with mingw */
 #endif
 #include <io.h>
 #include <fcntl.h>
@@ -164,9 +164,9 @@ static void print_version(void)
 {
   printf("%s"
 #ifndef NDEBUG
-         " (DEBUG BUILD)"
+	 " (DEBUG BUILD)"
 #endif
-         "\n", rk_version());
+	 "\n", rk_version());
   puts(copyright);
   puts(license);
 }
@@ -236,31 +236,31 @@ int main(int argc, char **argv)
   /* Options */
   static char sopts[] = "hV"  "wcno:" "r:m:i:" "s" ;
   static struct option lopts[] = {
-    { "help",    0, 0, 'h' },
-    { "usage",   0, 0, 'h' },
+    { "help",	 0, 0, 'h' },
+    { "usage",	 0, 0, 'h' },
     { "version", 0, 0, 'V' },
-    { "wav",     0, 0, 'w' },
-    { "output",  1, 0, 'o' },
-    { "stdout",  0, 0, 'c' },
-    { "null",    0, 0, 'n' },
-    { "rate=",   1, 0, 'r' },
-    { "mute=",   1, 0, 'm' },
+    { "wav",	 0, 0, 'w' },
+    { "output",	 1, 0, 'o' },
+    { "stdout",	 0, 0, 'c' },
+    { "null",	 0, 0, 'n' },
+    { "rate=",	 1, 0, 'r' },
+    { "mute=",	 1, 0, 'm' },
     { "ignore=", 1, 0, 'i' },
-    { "stats",   0, 0, 's' },
+    { "stats",	 0, 0, 's' },
     { 0 }
   };
 
   /* libao */
-  int               aoini = 0;
-  ao_device        *aodev = 0;
-  ao_info          *aoinf = 0;
+  int		    aoini = 0;
+  ao_device	   *aodev = 0;
+  ao_info	   *aoinf = 0;
   ao_sample_format  aofmt;
-  int               aoid;
+  int		    aoid;
 
   int i=1, n, ecode = RK_ERR, c, ppt;
   rkpla_t * P = 0;
   rkmod_t * M = 0;
-  void    * mix = 0;
+  void	  * mix = 0;
   unsigned long tics ,msecs, rate;
 
   prgname = basename(argv[0]);
@@ -277,38 +277,38 @@ int main(int argc, char **argv)
     case 'c': opt_outtype = OUT_IS_FILE; break;
     case 'o':
       if (!opt_output) {
-        if (opt_outtype == OUT_IS_LIVE)
-          opt_outtype = OUT_IS_FILE;
-        opt_output = strdup(optarg);
-        if (!opt_output) abort();
+	if (opt_outtype == OUT_IS_LIVE)
+	  opt_outtype = OUT_IS_FILE;
+	opt_output = strdup(optarg);
+	if (!opt_output) abort();
       } else {
-        emsg("multiple use of option -- %s=%s\n","output",optarg);
-        RETURN (RK_ARG);
+	emsg("multiple use of option -- %s=%s\n","output",optarg);
+	RETURN (RK_ARG);
       }
       break;
     case 'r': {
       char * errp = optarg;
       opt_spr = mystrtoul(&errp, 0);
       if (opt_spr == -1) {
-        emsg("invalid sampling rate -- rate=%s\n", optarg);
-        RETURN (RK_ARG);
+	emsg("invalid sampling rate -- rate=%s\n", optarg);
+	RETURN (RK_ARG);
       }
       if (tolower(*errp) == 'k') {
-        opt_spr *= 1000u;
-        errp++;
+	opt_spr *= 1000u;
+	errp++;
       }
       if (opt_spr < 6000 || opt_spr > 96000) {
-        emsg("sampling rate out of range -- rate=%s\n", optarg);
-        RETURN (RK_ARG);
+	emsg("sampling rate out of range -- rate=%s\n", optarg);
+	RETURN (RK_ARG);
       }
     } break;
     case 'm':
       if (-1 == (opt_mute = uint_mute(optarg,"mute")))
-        RETURN (RK_ARG);
+	RETURN (RK_ARG);
       break;
     case 'i':
       if (-1 == (opt_ignore = uint_mute(optarg,"ignore")))
-        RETURN (RK_ARG);
+	RETURN (RK_ARG);
       break;
 
     case 0: break;
@@ -373,7 +373,7 @@ int main(int argc, char **argv)
 #if (defined WIN32 || defined _WIN32) && defined _O_BINARY
       int fd = fileno(stdout);
       if (fd != -1)
-        _setmode(fd, _O_BINARY);
+	_setmode(fd, _O_BINARY);
 #endif
       opt_output = strdup("<stdout>");
       if (!opt_output) abort();
@@ -386,8 +386,8 @@ int main(int argc, char **argv)
     ao_initialize();
     aoini = 1;
     memset(&aofmt,0,sizeof(aofmt));
-    aofmt.bits        = 16;
-    aofmt.rate        = opt_spr;
+    aofmt.bits	      = 16;
+    aofmt.rate	      = opt_spr;
     aofmt.channels    = 2;
     aofmt.byte_format = AO_FMT_NATIVE;
 
@@ -406,7 +406,7 @@ int main(int argc, char **argv)
     opt_spr = aofmt.rate;
 
     if (aoinf->type == AO_TYPE_LIVE &&
-        -1 == asprintf(&opt_output, "%s@%uhz",aoinf->short_name,opt_spr))
+	-1 == asprintf(&opt_output, "%s@%uhz",aoinf->short_name,opt_spr))
       opt_output = 0;
     if (!opt_output) abort();
 
@@ -435,9 +435,9 @@ int main(int argc, char **argv)
     errno = 0;
     if ( writer(mix, cookie, ppt*4) != ppt*4 ) {
       if (!errno)
-        emsg("write error\n");
+	emsg("write error\n");
       else
-        emsg("write error (%d) %s\n", errno,strerror(errno));
+	emsg("write error (%d) %s\n", errno,strerror(errno));
       RETURN( RK_OUT );
     }
   }
@@ -445,10 +445,10 @@ int main(int argc, char **argv)
   if (1) {
     unsigned long secs = msecs / 1000UL;
     rklog("length : %u'%02u,%03u\" (%lu ticks at %uHz) \n",
-          (unsigned int)(secs/60u),
-          (unsigned int)(secs%60u),
-          (unsigned int)(msecs%1000UL),
-          tics, rate);
+	  (unsigned int)(secs/60u),
+	  (unsigned int)(secs%60u),
+	  (unsigned int)(msecs%1000UL),
+	  tics, rate);
   }
 
   if (opt_stats) {

@@ -8,7 +8,7 @@
  *
  * MIT License
  *
- * Copyright (c) 2018 Benjamin Gerard AKA Ben/OVR.
+ * Copyright (c) 2018 Benjamin Gerard AKA Ben^OVR.
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -52,13 +52,13 @@ struct rkf_header {
   uint8_t toins[2];
 };
 
-typedef  int_fast8_t  i8_t;
+typedef	 int_fast8_t  i8_t;
 typedef uint_fast8_t  u8_t;
-typedef  int_fast16_t i16_t;
+typedef	 int_fast16_t i16_t;
 typedef uint_fast16_t u16_t;
-typedef  int_fast32_t i32_t;
+typedef	 int_fast32_t i32_t;
 typedef uint_fast32_t u32_t;
-typedef uint8_t       rkarp_t[12];
+typedef uint8_t	      rkarp_t[12];
 
 typedef struct rkf_spl rkf_spl_t;
 struct rkf_spl {
@@ -69,23 +69,23 @@ struct rkf_spl {
 
 typedef struct rkf_ins rkf_ins_t;
 struct rkf_ins {
-  uint8_t tospl[2];                     /* 00 */
-  uint8_t tovib[2];                     /* 02 */
-  uint8_t magic[4];                     /* 04 "inst" */
-  uint8_t one[1];                       /* 08 */
-  uint8_t sidSpd[1];                    /* 09 */
-  uint8_t sidLen[1];                    /* 0A */
+  uint8_t tospl[2];			/* 00 */
+  uint8_t tovib[2];			/* 02 */
+  uint8_t magic[4];			/* 04 "inst" */
+  uint8_t one[1];			/* 08 */
+  uint8_t sidSpd[1];			/* 09 */
+  uint8_t sidLen[1];			/* 0A */
 
-  uint8_t vibSpd[1];                    /* 0B */
-  uint8_t vibAmp[1];                    /* 0C */
-  uint8_t vibW8t[1];                    /* 0D */
+  uint8_t vibSpd[1];			/* 0B */
+  uint8_t vibAmp[1];			/* 0C */
+  uint8_t vibW8t[1];			/* 0D */
 
-  uint8_t volVal[4];                    /* 0E */
-  uint8_t volInc[4];                    /* 12 */
+  uint8_t volVal[4];			/* 0E */
+  uint8_t volInc[4];			/* 12 */
 
-  uint8_t sidPcm[1];                    /* 16 */
-  uint8_t sidAlt[1];                    /* 17 */
-  uint8_t sidPos[1];                    /* 18 */
+  uint8_t sidPcm[1];			/* 16 */
+  uint8_t sidAlt[1];			/* 17 */
+  uint8_t sidPos[1];			/* 18 */
   uint8_t xxx[7];
 };
 
@@ -94,14 +94,14 @@ struct rk_ins {
   u8_t num;
 
   int8_t * pcmAdr, * pcmEnd, * lpAdr, * lpEnd, * vibDat;
-  int      vibLen, vibSpd, vibAmp, vibW8t;
+  int	   vibLen, vibSpd, vibAmp, vibW8t;
 
-  i16_t   sidSpd;
-  i16_t   sidBas;                       /* from sample def */
-  i16_t   sidLen;                       /* half len (I[A]) */
-  uint8_t sidAlt;                       /* I[17] */
-  i16_t   sidPos;                       /* I[18] */
-  int8_t  sidPcm;                       /* I[16] */
+  i16_t	  sidSpd;
+  i16_t	  sidBas;			/* from sample def */
+  i16_t	  sidLen;			/* half len (I[A]) */
+  uint8_t sidAlt;			/* I[17] */
+  i16_t	  sidPos;			/* I[18] */
+  int8_t  sidPcm;			/* I[16] */
 
   struct adsr {
     uint8_t vol, inc;
@@ -119,10 +119,10 @@ typedef struct rkmod rkmod_t;
 struct rkmod {
   uint8_t * _sng, * _arp, * _ins;
   u16_t siz;
-  u8_t  frq;
-  u8_t  nbs;
-  u8_t  nba;
-  u8_t  nbi;
+  u8_t	frq;
+  u8_t	nbs;
+  u8_t	nba;
+  u8_t	nbi;
   uint8_t raw[1];
 };
 
@@ -142,7 +142,7 @@ struct voice {
 
 typedef struct rkchn rkchn_t;
 struct rkchn {
-  u16_t   msk;
+  u16_t	  msk;
   uint8_t num;
   uint8_t trg;
 
@@ -168,33 +168,33 @@ struct rkchn {
   uint8_t fx84_1;
 
   uint8_t * arpAdr;
-  i16_t   arpIdx;
+  i16_t	  arpIdx;
 
   uint8_t envIdx;
   uint8_t envSpd;
 
-  i16_t   envW8t;
+  i16_t	  envW8t;
 
-  i16_t   sidW8t;
+  i16_t	  sidW8t;
 
-  i16_t   vibIdx;
-  i8_t    vibW8t;
+  i16_t	  vibIdx;
+  i8_t	  vibW8t;
 
-  u32_t   ticLen;
+  u32_t	  ticLen;
   voice_t voice;
 };
 
 typedef struct rkpla rkpla_t;
 struct rkpla {
   rkmod_t  * mod;
-  uint8_t  * raw;                       /* "r.k. module */
-  rkarp_t  * arp;                       /* Arpeggio table in "r.k." */
+  uint8_t  * raw;			/* "r.k. module */
+  rkarp_t  * arp;			/* Arpeggio table in "r.k." */
 
-  u16_t      evt;
-  u32_t      tic;                       /* current tic */
-  u32_t      spr;                       /* last sampling rate used */
-  uint8_t    num;                       /* Currenly playing */
-  uint8_t    frq;                       /* Tick rate */
+  u16_t	     evt;
+  u32_t	     tic;			/* current tic */
+  u32_t	     spr;			/* last sampling rate used */
+  uint8_t    num;			/* Currenly playing */
+  uint8_t    frq;			/* Tick rate */
   uint8_t    err;
   rkins_t    ins[RKMAXINST];
   rkchn_t    chn[4];

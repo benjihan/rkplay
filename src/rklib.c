@@ -8,7 +8,7 @@
  *
  * MIT License
  *
- * Copyright (c) 2018 Benjamin Gerard AKA Ben/OVR.
+ * Copyright (c) 2018 Benjamin Gerard AKA Ben^OVR.
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -129,7 +129,7 @@ init_inst(rkpla_t * P, rkf_ins_t * idef, uint8_t num)
   I->pcmAdr = self(def->todat);
   assert( I->pcmAdr );
   len = U16(def->len) << 1;
-  I->sidBas = U16(def->sid);          /* SID mid point or something */
+  I->sidBas = U16(def->sid);	      /* SID mid point or something */
 
   I->pcmEnd = I->pcmAdr + len;
   if (!U8(idef->one)) {
@@ -186,8 +186,8 @@ int rk_init(rkpla_t * const P, rkmod_t * const M, int num)
     C->num    = k;
     C->msk    = 0x111 << k;
     C->sngAdr = self(song);
-    C->seqPtr = &ff;            /* Trigger a new sequence read */
-    C->sngPtr = C->sngAdr-4;    /* -4 because it's post incremented */
+    C->seqPtr = &ff;		/* Trigger a new sequence read */
+    C->sngPtr = C->sngAdr-4;	/* -4 because it's post incremented */
     C->seqRep = 1;
     C->arpAdr = P->arp[0];
     C->curIns = P->ins;
@@ -201,11 +201,11 @@ static void
 trigr_sample(rkchn_t * const C)
 {
   assert( C->curIns->pcmAdr );
-  C->voice.pcm   = C->curIns->pcmAdr;
-  C->voice.end   = C->curIns->pcmEnd;
+  C->voice.pcm	 = C->curIns->pcmAdr;
+  C->voice.end	 = C->curIns->pcmEnd;
   C->voice.lpadr = C->curIns->lpAdr;
   C->voice.lpend = C->curIns->lpEnd;
-  C->voice.acu   = 0;
+  C->voice.acu	 = 0;
 
   C->trg = 1;
 }
@@ -229,8 +229,8 @@ seq_read(rkpla_t * P, rkchn_t * C)
 
     if ( C->seqPtr[0] == 0x81 ) {
       /* Portamento 0x81,GOAL,SPEED,WAIT */
-      C->envIdx = 0;                    /* !!! Note trigger */
-      C->ptaNot = C->seqPtr[1];         /* Goal note */
+      C->envIdx = 0;			/* !!! Note trigger */
+      C->ptaNot = C->seqPtr[1];		/* Goal note */
       C->ptaPer = period(C->ptaNot, C->seqTra, 0);
       C->ptaStp = C->seqPtr[2];
       C->seqW8t = C->seqPtr[3] << 2;
@@ -242,7 +242,7 @@ seq_read(rkpla_t * P, rkchn_t * C)
     if ( C->seqPtr[0] == 0x82 ) {
       /* Set instrument */
       C->curVol = 0;
-      C->envIdx = 0;                    /* Reset ADSR */
+      C->envIdx = 0;			/* Reset ADSR */
       C->curIns = P->ins + C->seqPtr[1];
       trigr_sample(C);
 
@@ -286,20 +286,20 @@ seq_read(rkpla_t * P, rkchn_t * C)
       assert ( C->seqPtr[0] == 0xFF );
 
       if ( -- C->seqRep ) {
-        C->seqPtr = self(C->sngPtr);
-        C->seqTra = C->sngPtr[2];
-        P->evt |= 0xF00 & C->msk;
+	C->seqPtr = self(C->sngPtr);
+	C->seqTra = C->sngPtr[2];
+	P->evt |= 0xF00 & C->msk;
       } else {
-        C->sngPtr += 4;
-        C->seqPtr = self(C->sngPtr);
-        if (!C->seqPtr) {
-          C->seqPtr = self(C->sngPtr = C->sngAdr);
-          if ( ! (0x00F & P->evt & C->msk) )
-            C->ticLen = P->tic - 1;
-          P->evt |= 0x0FF & C->msk;
-        }
-        C->seqTra = C->sngPtr[2];
-        C->seqRep = C->sngPtr[3];
+	C->sngPtr += 4;
+	C->seqPtr = self(C->sngPtr);
+	if (!C->seqPtr) {
+	  C->seqPtr = self(C->sngPtr = C->sngAdr);
+	  if ( ! (0x00F & P->evt & C->msk) )
+	    C->ticLen = P->tic - 1;
+	  P->evt |= 0x0FF & C->msk;
+	}
+	C->seqTra = C->sngPtr[2];
+	C->seqRep = C->sngPtr[3];
       }
 
       bit = 0;
@@ -312,12 +312,12 @@ seq_read(rkpla_t * P, rkchn_t * C)
       C->seqPtr += 2;
       C->curPer = period(C->seqNot, C->seqTra, 0);
       if (w8t) {
-        trigr_sample(C);
-        C->seqW8t = w8t << 2;
-        assert( C->seqW8t );
-        C->envIdx = 0;
-        C->curVol = 0;
-        break;
+	trigr_sample(C);
+	C->seqW8t = w8t << 2;
+	assert( C->seqW8t );
+	C->envIdx = 0;
+	C->curVol = 0;
+	break;
       }
     }
   }
@@ -348,17 +348,17 @@ do_asid(rkchn_t * const C)
       assert (I->sidPos >= 0 && I->sidPos <= I->sidLen*2);
 
       if(!I->sidAlt) {
-        pcm[I->sidPos] = I->sidPcm;
-        if (++I->sidPos == I->sidLen*2) {
-          I->sidAlt = ~I->sidAlt;
-          I->sidPcm = ~I->sidPcm;
-        }
+	pcm[I->sidPos] = I->sidPcm;
+	if (++I->sidPos == I->sidLen*2) {
+	  I->sidAlt = ~I->sidAlt;
+	  I->sidPcm = ~I->sidPcm;
+	}
       } else {
-        pcm[I->sidPos] = I->sidPcm;
-        if (--I->sidPos == 0) {
-          I->sidAlt = ~I->sidAlt;
-          I->sidPcm = ~I->sidPcm;
-        }
+	pcm[I->sidPos] = I->sidPcm;
+	if (--I->sidPos == 0) {
+	  I->sidAlt = ~I->sidAlt;
+	  I->sidPcm = ~I->sidPcm;
+	}
       }
     }
   }
@@ -410,7 +410,7 @@ do_vibrato(rkchn_t * const C)
       per = I->vibDat[C->vibIdx] * I->vibAmp;
       C->vibIdx -= I->vibSpd;
       if (C->vibIdx < 0)
-        C->vibIdx += I->vibLen;
+	C->vibIdx += I->vibLen;
     }
   }
   return per;
@@ -444,14 +444,14 @@ do_envelop(rkchn_t * const C)
     if (vol >= aim) {
       vol -= inc;
       if (vol <= aim) {
-        vol = aim;
-        ++idx;
+	vol = aim;
+	++idx;
       }
     } else {
       vol += inc;
       if (vol >= aim) {
-        vol = aim;
-        ++idx;
+	vol = aim;
+	++idx;
       }
     }
     if (idx > 3) idx = 3;
@@ -502,8 +502,8 @@ static inline int16_t lagrange(i32_t p1, i32_t p2, i32_t p3, u32_t idx)
   const i32_t j = (idx >> 9) & 0x7F; /* the mid point is f(.5) */
 
   /* f(x) = ax^2+bx+c */
-  const i32_t c =    p1            ;
-  const i32_t b = -3*p1 +4*p2 -  p3;
+  const i32_t c =    p1		   ;
+  const i32_t b = -3*p1 +4*p2 -	 p3;
   const i32_t a =  2*p1 -4*p2 +2*p3;
 
   /* x is fp8; x^2 is fp16; r is fp16 => 24bit */
@@ -535,14 +535,14 @@ mix_voice(int16_t * mix, int n, voice_t * V)
       V->pcm += V->acu >> 16;
       V->acu &= 0xFFFF;
       if ( V->pcm >= V->end ) {
-        if (!V->lpadr) {
-          V->pcm = 0;
-          V->acu = 0;
-          break;
-        } else {
-          V->pcm = V->lpadr + ( V->pcm - V->end ) % lplen;
-          V->end = V->lpend;
-        }
+	if (!V->lpadr) {
+	  V->pcm = 0;
+	  V->acu = 0;
+	  break;
+	} else {
+	  V->pcm = V->lpadr + ( V->pcm - V->end ) % lplen;
+	  V->end = V->lpend;
+	}
       }
     }
   }
@@ -574,14 +574,16 @@ rk_mix_chan(rkchn_t * const C, int16_t * mix, u16_t ppt, u32_t spr)
       st->perMin = st->perMax = C->endPer;
       st->volMin = st->volMax = C->endVol;
     }
-    else if (C->endPer < st->perMin)
-      st->perMin = C->endPer;
-    else if (C->endPer > st->perMax)
-      st->perMax = C->endPer;
-    else if (C->endVol < st->volMin)
-      st->volMin = C->endVol;
-    else if (C->endVol > st->volMax)
-      st->volMax = C->endVol;
+    else {
+      if (C->endPer < st->perMin)
+	st->perMin = C->endPer;
+      else if (C->endPer > st->perMax)
+	st->perMax = C->endPer;
+      if (C->endVol < st->volMin)
+	st->volMin = C->endVol;
+      else if (C->endVol > st->volMax)
+	st->volMax = C->endVol;
+    }
   }
 
   C->voice.stp = calc_step(C->endPer, spr);
