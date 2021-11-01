@@ -4,12 +4,14 @@
 #
 # rkplay - Makefile
 #
-# by Ben G. AKA Ben/OVR
+# by Ben G. AKA Ben^OVR
 #
 # ----------------------------------------------------------------------
-
-$(info DEBUG=$(or $D,-DNDEBUG=1))
-
+#
+# Variables:
+#  $(D)        if non-empty build with assert
+#  $(VERSION)  override the version string (default is build date)
+#
 objects = rklib.o rkload.o
 
 vpath %.c src
@@ -19,7 +21,8 @@ clean:; rm -f -- rkplay $(objects)
 rkplay: LDLIBS=$(shell $(or $(PKGCONFIG),pkg-config) ao --cflags --libs)
 rkplay: CPPFLAGS += $(if $D,,-DNDEBUG=1)
 rkplay: $(objects)
-rklib.o: CPPFLAGS += -DVERSION='"$(shell date -u +%F)"'
+rklib.o:\
+override CPPFLAGS += -DVERSION='"$(or $(VERSION),$(shell date -u +%F))"'
 .PHONY: clean all
 
 # Dependencies
